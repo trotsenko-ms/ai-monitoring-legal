@@ -1,3 +1,9 @@
 {
-  "urls": []
+  "urls": [
+    { "url": "https://zakon.rada.gov.ua/laws/show/z0347-26", "found_date": "2026-05-02" },
+    { "url": "https://zakon.rada.gov.ua/laws/show/345-2026-%D0%BF", "found_date": "2026-05-02" },
+    { "url": "https://7eminar.ua/news/17197-z-10-lyutogo-2026-roku-novi-kep-formuvatimutsya-za-onovlenim", "found_date": "2026-05-02" },
+    { "url": "https://zakon.rada.gov.ua/laws/show/321-2026-%D0%BF", "found_date": "2026-05-02" },
+    { "url": "https://zakon.rada.gov.ua/laws/show/57-2026-%D0%BF", "found_date": "2026-05-02" }
+  ]
 }
