@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "validated-artifact.schema.json",
+  "title": "Validated Artifact",
+  "description": "Вихідний артефакт агента-валідатора (validator-edo або validator-state). Кожен item отримує статус валідації та результати перевірок. На основі цього артефакту формується email-дайджест. Зберігається у runs/{validator_id}/{run_id}.json.",
+  "type": "object",
+  "required": ["agent_id", "agent_version", "run_id", "source_artifact", "period", "items", "stats"],
+  "additionalProperties": false,
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "enum": ["validator-edo", "validator-state"],
+      "description": "Ідентифікатор агента-валідатора"
+    },
+    "agent_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Версія агента, наприклад '1.0'"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$",
+      "description": "Унікальний ідентифікатор запуску валідатора. Формат: YYYY-MM-DDTHH-MM-SSZ"
+    },
+    "source_artifact": {
+      "type": "string",
+      "description": "Відносний шлях до артефакту що валідується. Для validator-edo — 'runs/monitor-edo/{run_id}.json'; для validator-state — 'runs/orchestrator-state/{run_id}.json'."
+    },
+    "period": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "description": "Розрахунковий період — успадковується з вхідного артефакту",
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Початок розрахункового періоду (ISO 8601 UTC)"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Кінець розрахункового періоду (ISO 8601 UTC)"
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Список документів з результатами валідації. Включає всі items з вхідного артефакту — як valid так і invalid.",
+      "items": {
+        "$ref": "#/$defs/ValidatedItem"
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["items_received", "items_valid", "items_invalid", "items_uncertain", "errors"],
+      "additionalProperties": false,
+      "description": "Підсумкова статистика валідації",
+      "properties": {
+        "items_received": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Загальна кількість items отриманих з вхідного артефакту"
+        },
+        "items_valid": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Кількість items що пройшли валідацію (увійдуть до email-дайджесту)"
+        },
+        "items_invalid": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Кількість items відхилених валідатором (false positives)"
+        },
+        "items_uncertain": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Кількість items де валідатор не зміг однозначно визначити статус (включаються до дайджесту з позначкою)"
+        },
+        "errors": {
+          "type": "array",
+          "description": "Помилки на рівні валідатора (наприклад, вхідний артефакт не знайдено, збій WebFetch)",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ValidatedItem": {
+      "type": "object",
+      "required": ["title", "url", "raw_status", "validation_status", "validation_checks"],
+      "additionalProperties": false,
+      "description": "Один документ з результатами валідації",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Повна назва документа (успадковується з вхідного артефакту)"
+        },
+        "number": {
+          "type": "string",
+          "description": "Номер акта або реєстраційний номер законопроекту"
+        },
+        "date_published": {
+          "type": "string",
+          "format": "date",
+          "description": "Дата публікації або реєстрації (YYYY-MM-DD)"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Пряме посилання на офіційний текст документа"
+        },
+        "raw_status": {
+          "type": "string",
+          "enum": ["found"],
+          "description": "Статус на рівні монітора (успадковується з вхідного артефакту)"
+        },
+        "source_agent_id": {
+          "type": "string",
+          "enum": ["monitor-edo", "monitor-rada-bills", "monitor-kmu", "monitor-nbu"],
+          "description": "Монітор-автор цього item. Обов'язкове для validator-state (consolidated input); опціональне для validator-edo."
+        },
+        "validation_status": {
+          "type": "string",
+          "enum": ["valid", "invalid", "uncertain"],
+          "description": "Підсумковий статус валідації: valid — документ пройшов всі перевірки; invalid — відхилено (false positive); uncertain — не вдалося перевірити однозначно."
+        },
+        "validation_checks": {
+          "type": "object",
+          "required": ["url_accessible", "document_found", "date_in_period", "keywords_match"],
+          "additionalProperties": false,
+          "description": "Результати окремих перевірок",
+          "properties": {
+            "url_accessible": {
+              "type": "boolean",
+              "description": "True якщо URL повернув HTTP 200 або сторінка завантажилась"
+            },
+            "document_found": {
+              "type": "boolean",
+              "description": "True якщо на сторінці виявлено текст або реквізити очікуваного документа"
+            },
+            "date_in_period": {
+              "type": "boolean",
+              "description": "True якщо дата публікації документа потрапляє у розрахунковий period"
+            },
+            "keywords_match": {
+              "type": "boolean",
+              "description": "True якщо документ відповідає тематиці моніторингу (ЕДО, КЕП, архів, банківський документообіг)"
+            }
+          }
+        },
+        "validation_note": {
+          "type": "string",
+          "description": "Опціональне пояснення рішення валідатора. Заповнюється при invalid або uncertain — вказує яка саме перевірка не пройшла і чому."
+        }
+      }
+    }
+  }
+}
