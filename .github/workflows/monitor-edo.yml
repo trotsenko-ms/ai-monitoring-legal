@@ -1,0 +1,120 @@
+name: Monitor EDO (ЕДО)
+
+# Гілка ЕДО: електронний документообіг
+# Pipeline: monitor-edo → validator-edo → email [ЕДО]
+#
+# Розклад: 08:30 за київським часом (UTC+3 = 05:30 UTC)
+# Manual:  workflow_dispatch з міткою "ЕДО"
+#
+# Required secrets:
+#   ANTHROPIC_API_KEY   — Claude API key
+#   GMAIL_APP_PASSWORD  — Gmail App Password для надсилання дайджестів
+
+on:
+  schedule:
+    - cron: '30 5 * * *'   # 08:30 Kyiv (UTC+3)
+  workflow_dispatch:
+    inputs:
+      trigger_label:
+        description: 'Тип тригера'
+        required: false
+        default: 'ЕДО'
+        type: choice
+        options:
+          - ЕДО
+
+jobs:
+
+  # ── Monitor ─────────────────────────────────────────────────────────────────
+
+  monitor:
+    name: monitor-edo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run monitor-edo
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: bash scripts/run-agent.sh monitors monitor-edo
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-monitor-edo
+          path: |
+            runs/monitor-edo/
+            data/dedup/seen_urls_edo.json
+          if-no-files-found: warn
+
+  # ── Validator ───────────────────────────────────────────────────────────────
+
+  validate:
+    name: validator-edo
+    runs-on: ubuntu-latest
+    needs: monitor
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Download monitor artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: output-monitor-edo
+          path: runs/monitor-edo/
+
+      - name: Run validator-edo
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: bash scripts/run-agent.sh validators validator-edo
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-validator-edo
+          path: runs/validator-edo/
+          if-no-files-found: warn
+
+  # ── Commit results ──────────────────────────────────────────────────────────
+
+  commit-results:
+    name: Commit run artifacts
+    runs-on: ubuntu-latest
+    needs: validate
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: output-*
+          merge-multiple: true
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add runs/ data/dedup/
+          if ! git diff --staged --quiet; then
+            TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            git commit -m "run: monitor-edo pipeline ${TIMESTAMP}"
+            git push origin HEAD
+          else
+            echo "No new artifacts to commit"
+          fi

@@ -1,0 +1,212 @@
+name: Monitor State (НПА)
+
+# Гілка держорганів: законопроекти ВРУ, акти КМУ, акти НБУ
+# Pipeline: monitor-rada-bills + monitor-kmu + monitor-nbu (паралельно)
+#           → orchestrator-state → validator-state → email [НПА]
+#
+# Розклад: 08:00 та 17:00 за київським часом (UTC+3 = 05:00 та 14:00 UTC)
+# Manual:  workflow_dispatch з міткою "НПА"
+#
+# Required secrets:
+#   ANTHROPIC_API_KEY   — Claude API key
+#   GMAIL_APP_PASSWORD  — Gmail App Password для надсилання дайджестів
+
+on:
+  schedule:
+    - cron: '0 5 * * *'    # 08:00 Kyiv (UTC+3)
+    - cron: '0 14 * * *'   # 17:00 Kyiv (UTC+3)
+  workflow_dispatch:
+    inputs:
+      trigger_label:
+        description: 'Тип тригера'
+        required: false
+        default: 'НПА'
+        type: choice
+        options:
+          - НПА
+
+# Три monitor-агенти запускаються паралельно, далі — послідовно orchestrator і validator.
+jobs:
+
+  # ── Monitors (паралельно) ───────────────────────────────────────────────────
+
+  monitor-rada-bills:
+    name: monitor-rada-bills
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run monitor-rada-bills
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: bash scripts/run-agent.sh monitors monitor-rada-bills
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-monitor-rada-bills
+          path: |
+            runs/monitor-rada-bills/
+            data/dedup/seen_urls_rada_bills.json
+          if-no-files-found: warn
+
+  monitor-kmu:
+    name: monitor-kmu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run monitor-kmu
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: bash scripts/run-agent.sh monitors monitor-kmu
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-monitor-kmu
+          path: |
+            runs/monitor-kmu/
+            data/dedup/seen_urls_kmu.json
+          if-no-files-found: warn
+
+  monitor-nbu:
+    name: monitor-nbu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run monitor-nbu
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: bash scripts/run-agent.sh monitors monitor-nbu
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-monitor-nbu
+          path: |
+            runs/monitor-nbu/
+            data/dedup/seen_urls_nbu.json
+          if-no-files-found: warn
+
+  # ── Orchestrator ────────────────────────────────────────────────────────────
+
+  orchestrate:
+    name: orchestrator-state
+    runs-on: ubuntu-latest
+    needs: [monitor-rada-bills, monitor-kmu, monitor-nbu]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      # Завантажуємо артефакти всіх трьох моніторів до workspace
+      - name: Download monitor artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: output-monitor-*
+          merge-multiple: true
+
+      - name: Run orchestrator-state
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: bash scripts/run-agent.sh orchestrators orchestrator-state
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-orchestrator-state
+          path: runs/orchestrator-state/
+          if-no-files-found: warn
+
+  # ── Validator ───────────────────────────────────────────────────────────────
+
+  validate:
+    name: validator-state
+    runs-on: ubuntu-latest
+    needs: orchestrate
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Download orchestrator artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: output-orchestrator-state
+          path: runs/orchestrator-state/
+
+      - name: Run validator-state
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: bash scripts/run-agent.sh validators validator-state
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-validator-state
+          path: runs/validator-state/
+          if-no-files-found: warn
+
+  # ── Commit results ──────────────────────────────────────────────────────────
+
+  commit-results:
+    name: Commit run artifacts
+    runs-on: ubuntu-latest
+    needs: validate
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: output-*
+          merge-multiple: true
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add runs/ data/dedup/
+          if ! git diff --staged --quiet; then
+            TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            git commit -m "run: monitor-state pipeline ${TIMESTAMP}"
+            git push origin HEAD
+          else
+            echo "No new artifacts to commit"
+          fi
