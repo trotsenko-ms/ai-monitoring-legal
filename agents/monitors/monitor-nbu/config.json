@@ -1,0 +1,15 @@
+{
+  "agent_id": "monitor-nbu",
+  "agent_version": "1.0",
+  "model": "claude-sonnet-4-5",
+  "tools": ["WebSearch", "WebFetch"],
+  "dedup_file": "data/dedup/seen_urls_nbu.json",
+  "output_dir": "runs/monitor-nbu",
+  "schema": "shared/schemas/monitor-artifact.schema.json",
+  "source_url": "https://bank.gov.ua/ua/legislation",
+  "schedule": {
+    "cron_utc": "0 5 * * * / 0 14 * * *",
+    "description": "08:00 and 17:00 Kyiv (UTC+3), launched by orchestrator-state",
+    "manual_trigger": "НПА"
+  }
+}
