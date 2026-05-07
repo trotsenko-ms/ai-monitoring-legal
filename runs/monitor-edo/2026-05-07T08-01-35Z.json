@@ -1,0 +1,24 @@
+{
+  "agent_id": "monitor-edo",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T08-01-35Z",
+  "period": {
+    "from": "2026-05-07T05:30:00Z",
+    "to": "2026-05-07T08:01:35Z"
+  },
+  "source_url": "https://zakon.rada.gov.ua / https://kmu.gov.ua / https://bank.gov.ua",
+  "items": [
+    {
+      "title": "Постанова Правління НБУ від 23.04.2026 № 41 «Про затвердження Змін до Положення про порядок виконання надавачами платіжних послуг платіжних інструкцій в іноземній валюті та банківських металах»",
+      "number": "41",
+      "date_published": "2026-05-07",
+      "url": "https://zakon.rada.gov.ua/laws/show/v0041500-26",
+      "raw_status": "found"
+    }
+  ],
+  "stats": {
+    "items_found": 1,
+    "duplicates_filtered": 0,
+    "errors": []
+  }
+}
