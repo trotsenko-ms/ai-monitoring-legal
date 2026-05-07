@@ -237,11 +237,16 @@ docs/agents/
 
 **Мета:** активувати cron і розпочати 30-денний пілот.
 **Залежності:** Фаза 8 завершена успішно.
+**Статус:** LAUNCHED 2026-05-07
 
-- [ ] Переконатися що GitHub Actions workflows активні (not disabled)
+- [x] Переконатися що GitHub Actions workflows активні (not disabled)
+  - `monitor-state.yml` — cron `0 5 * * *` (08:00 Kyiv) та `0 14 * * *` (17:00 Kyiv) — ACTIVE on main
+  - `monitor-edo.yml` — cron `30 5 * * *` (08:30 Kyiv) — ACTIVE on main
+  - Обидва workflows мають `workflow_dispatch` для ручного тригера
 - [ ] Дочекатися першого автоматичного cron-запуску о 08:00 або 08:30
 - [ ] Перевірити email — лист отримано, формат коректний
 - [ ] Протягом першого тижня: щоденно переглядати `runs/` для виявлення аномалій
+  - Інструкція: `docs/MONITORING-RUNBOOK.md`
 - [ ] Після 30 днів: оцінити метрики (precision, recall, стабільність) → рішення про фазу 2
 
 ---
