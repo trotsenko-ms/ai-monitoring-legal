@@ -1,6 +1,6 @@
 {
   "agent_id": "monitor-edo",
-  "last_updated": "2026-05-07T05:30:00Z",
+  "last_updated": "2026-05-07T08:01:35Z",
   "urls": [
     {
       "url": "https://zakon.rada.gov.ua/laws/show/534-2026-п",
@@ -12,6 +12,10 @@
     },
     {
       "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "found_date": "2026-05-07"
+    },
+    {
+      "url": "https://zakon.rada.gov.ua/laws/show/v0041500-26",
       "found_date": "2026-05-07"
     }
   ]
