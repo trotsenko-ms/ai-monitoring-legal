@@ -131,63 +131,13 @@ False якщо жодного терміна не виявлено.
 
 # КРОК 3 — EMAIL-ДАЙДЖЕСТ
 
-Сформувати та надіслати email-дайджест.
+Відправку email виконує інфраструктурний скрипт `scripts/send-digest.py`, який запускається
+автоматично після завершення агента кроком `Send email digest` у GitHub Actions workflow
+(`monitor-state.yml`). Агент не відправляє email самостійно — це поза його можливостями.
 
-## Заголовок листа
-```
-[НПА] Дайджест моніторингу за {period.from} — {period.to}
-```
-
-## Тіло листа
-```
-Моніторинг НПА держорганів — автоматичний дайджест
-Джерела: Верховна Рада, КМУ, НБУ
-Період: з {period.from} до {period.to}
-
-ЗНАЙДЕНО {items_valid} нових документів ({items_uncertain} потребують перевірки):
-
-── ЗАКОНОПРОЕКТИ ВРУ ({count з monitor-rada-bills}) ──
-
-1. {title}
-   Реквізити: {number}, {date_published}
-   Посилання: {url}
-
-── ПОСТАНОВИ КМУ ({count з monitor-kmu}) ──
-
-2. {title}
-   Реквізити: {number}, {date_published}
-   Посилання: {url}
-
-── АКТИ НБУ ({count з monitor-nbu}) ──
-
-3. {title}
-   Реквізити: {number}, {date_published}
-   Посилання: {url}
-
-{Якщо items_valid = 0 і items_uncertain = 0:}
-За вказаний період нових змін не виявлено.
-
-{Якщо є uncertain items — додати окрему секцію:}
-── ПОТРЕБУЮТЬ ПЕРЕВІРКИ ({items_uncertain}) ──
-{перелік з validation_note}
-
----
-[Автоматичний дайджест] | ai-monitoring-legal | trotsenko-ms
-Інформаційний характер. Не замінює правову експертизу.
-```
-
-## Секції з нульовою кількістю
-Якщо з певного джерела documents = 0 — секцію включити з текстом «Нових документів не виявлено.»
-
-## Відправка
-- Адресат: legal.monitor.ai@gmail.com
-- Відправник: налаштовується через змінну середовища GMAIL_SENDER або GitHub Secret
-- Транспорт: Gmail SMTP (smtp.gmail.com:587, STARTTLS) або Gmail API
-- Credentials: змінна середовища GMAIL_APP_PASSWORD (app password) або GMAIL_API_TOKEN
-
-Якщо відправка не вдалась:
-- Зафіксувати в stats.errors: `"email_send_failed: {причина}"`
-- Дайджест залишається у validated artifact — може бути надіслано повторно з файлу
+Завдання агента завершується на Кроці 2: зберегти валідований артефакт у
+`runs/validator-state/{RUN_ID}.json`. Скрипт `send-digest.py` прочитає цей файл і надішле
+дайджест на `legal.monitor.ai@gmail.com` через Gmail SMTP.
 
 # ПРАВИЛО ЗАПУСКУ
 
@@ -195,4 +145,4 @@ False якщо жодного терміна не виявлено.
 1. Виконати Крок 0 (визначити RUN_ID та вхідний артефакт)
 2. Виконати Крок 1 (валідація кожного item)
 3. Виконати Крок 2 (зберегти validated artifact)
-4. Виконати Крок 3 (надіслати email-дайджест)
+4. Email надсилається автоматично скриптом `scripts/send-digest.py` (не агентом)
