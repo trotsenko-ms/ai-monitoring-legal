@@ -1,0 +1,16 @@
+{
+  "agent_id": "monitor-rada-bills",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-55-50Z",
+  "period": {
+    "from": "2026-05-07T05:00:00Z",
+    "to": "2026-05-07T06:55:50Z"
+  },
+  "source_url": "https://itd.rada.gov.ua/billinfo/Bills/period",
+  "items": [],
+  "stats": {
+    "items_found": 0,
+    "duplicates_filtered": 0,
+    "errors": []
+  }
+}
