@@ -1,0 +1,22 @@
+{
+  "case_id": "monitor-rada-bills/case-01-normal-run",
+  "description": "Звичайний запуск: агент знаходить 2 нових законопроекти у сфері КЕП та ЕДО в судочинстві, 5 дублів відфільтровано",
+  "agent": "monitor-rada-bills",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-rada-bills/sample-run-with-items.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-rada-bills",
+    "items_count_min": 1,
+    "duplicates_filtered_min": 0,
+    "errors_count": 0,
+    "every_item_has_url": true,
+    "every_item_has_title": true,
+    "every_item_raw_status": "found"
+  },
+  "expected": {
+    "stats.items_found": 2,
+    "stats.duplicates_filtered": 5,
+    "stats.errors": []
+  }
+}

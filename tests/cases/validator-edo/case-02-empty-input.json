@@ -1,0 +1,19 @@
+{
+  "case_id": "validator-edo/case-02-empty-input",
+  "description": "Порожній вхід: monitor-edo знайшов 0 items — validator-edo формує порожній дайджест з текстом «нових змін не виявлено»",
+  "agent": "validator-edo",
+  "trigger": "cron",
+  "input_artifact": "tests/fixtures/monitor-edo/sample-run-empty.json",
+  "fixture": "tests/fixtures/monitor-edo/sample-run-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "validator-edo",
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_received": 0,
+    "stats.items_valid": 0,
+    "stats.items_invalid": 0,
+    "stats.items_uncertain": 0
+  }
+}

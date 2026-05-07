@@ -1,0 +1,20 @@
+{
+  "case_id": "orchestrator-state/case-02-empty-run",
+  "description": "Порожній результат: всі три монітори знайшли 0 нових items — консолідований артефакт порожній",
+  "agent": "orchestrator-state",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/orchestrator-state/sample-consolidated-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "orchestrator-state",
+    "sources_count": 3,
+    "items_total_min": 0,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_total": 0,
+    "items": [],
+    "stats.sources_with_errors": [],
+    "stats.errors": []
+  }
+}

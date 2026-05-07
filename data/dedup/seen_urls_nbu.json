@@ -1,5 +1,14 @@
 {
   "agent_id": "monitor-nbu",
-  "last_updated": "",
-  "urls": []
+  "last_updated": "2026-05-07T05:00:00Z",
+  "urls": [
+    {
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "found_date": "2026-05-07"
+    },
+    {
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_05052026_55",
+      "found_date": "2026-05-07"
+    }
+  ]
 }

@@ -1,0 +1,24 @@
+{
+  "case_id": "validator-edo/case-01-full-validation",
+  "description": "Повна валідація ЕДО: 3 items з monitor-edo артефакту, всі 3 valid. Email-дайджест формується і надсилається на legal.monitor.ai@gmail.com.",
+  "agent": "validator-edo",
+  "trigger": "cron",
+  "input_artifact": "runs/monitor-edo/2026-05-07T05-30-00Z.json",
+  "fixture": "tests/fixtures/validator-edo/sample-validated-with-items.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "validator-edo",
+    "source_artifact_present": true,
+    "items_received_equals_input": true,
+    "every_item_has_validation_status": true,
+    "every_item_has_validation_checks": true,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_received": 3,
+    "stats.items_valid": 3,
+    "stats.items_invalid": 0,
+    "stats.items_uncertain": 0,
+    "stats.errors": []
+  }
+}
