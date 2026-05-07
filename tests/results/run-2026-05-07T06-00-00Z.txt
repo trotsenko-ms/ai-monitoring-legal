@@ -1,0 +1,8 @@
+Test run: 2026-05-07T06-00-00Z
+Agent filter: monitor-rada-bills
+================================
+PASS monitor-rada-bills/case-01-normal-run
+PASS monitor-rada-bills/case-02-empty-period
+PASS monitor-rada-bills/case-03-source-error
+================================
+Results: 3 passed, 0 failed

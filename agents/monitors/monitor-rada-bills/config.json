@@ -1,0 +1,15 @@
+{
+  "agent_id": "monitor-rada-bills",
+  "agent_version": "1.0",
+  "model": "claude-sonnet-4-5",
+  "tools": ["WebSearch", "WebFetch"],
+  "dedup_file": "data/dedup/seen_urls_rada_bills.json",
+  "output_dir": "runs/monitor-rada-bills",
+  "schema": "shared/schemas/monitor-artifact.schema.json",
+  "source_url": "https://itd.rada.gov.ua/billinfo/Bills/period",
+  "schedule": {
+    "cron_utc": "0 5 * * * / 0 14 * * *",
+    "description": "08:00 and 17:00 Kyiv (UTC+3), launched by orchestrator-state",
+    "manual_trigger": "НПА"
+  }
+}

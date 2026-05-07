@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "consolidated-artifact.schema.json",
+  "title": "Consolidated Artifact",
+  "description": "Вихідний артефакт orchestrator-state. Об'єднує артефакти трьох monitor-агентів (monitor-rada-bills, monitor-kmu, monitor-nbu) в один консолідований документ для передачі validator-state. Зберігається у runs/orchestrator-state/{run_id}.json.",
+  "type": "object",
+  "required": ["agent_id", "agent_version", "run_id", "period", "sources", "items", "stats"],
+  "additionalProperties": false,
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "enum": ["orchestrator-state"],
+      "description": "Ідентифікатор агента-оркестратора"
+    },
+    "agent_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Версія агента, наприклад '1.0'"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$",
+      "description": "Унікальний ідентифікатор запуску. Формат: YYYY-MM-DDTHH-MM-SSZ"
+    },
+    "period": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "description": "Консолідований розрахунковий період — мінімум from і максимум to серед трьох monitor-артефактів",
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Початок розрахункового періоду (ISO 8601 UTC)"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Кінець розрахункового періоду (ISO 8601 UTC)"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "Метадані трьох monitor-артефактів, що були об'єднані",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/SourceMeta"
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Об'єднаний список нових документів з усіх трьох джерел (після дедуплікації всередині кожного монітора)",
+      "items": {
+        "$ref": "#/$defs/ConsolidatedItem"
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["items_total", "items_by_source", "sources_with_errors", "errors"],
+      "additionalProperties": false,
+      "description": "Агрегована статистика по всіх джерелах",
+      "properties": {
+        "items_total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Загальна кількість items у консолідованому артефакті"
+        },
+        "items_by_source": {
+          "type": "object",
+          "description": "Кількість items від кожного монітора",
+          "required": ["monitor-rada-bills", "monitor-kmu", "monitor-nbu"],
+          "additionalProperties": false,
+          "properties": {
+            "monitor-rada-bills": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "monitor-kmu": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "monitor-nbu": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "sources_with_errors": {
+          "type": "array",
+          "description": "agent_id моніторів, що завершились з помилками",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "type": "array",
+          "description": "Помилки на рівні оркестратора (наприклад, артефакт монітора не знайдено)",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "SourceMeta": {
+      "type": "object",
+      "required": ["agent_id", "artifact_path", "run_id", "items_count"],
+      "additionalProperties": false,
+      "description": "Метадані одного monitor-артефакту, що увійшов до консолідованого",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "enum": ["monitor-rada-bills", "monitor-kmu", "monitor-nbu"],
+          "description": "Ідентифікатор монітора"
+        },
+        "artifact_path": {
+          "type": "string",
+          "description": "Відносний шлях до артефакту, наприклад 'runs/monitor-rada-bills/2026-05-06T08-00-00Z.json'"
+        },
+        "run_id": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$",
+          "description": "run_id монітора (з його артефакту)"
+        },
+        "items_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Кількість items у цьому monitor-артефакті"
+        },
+        "had_errors": {
+          "type": "boolean",
+          "description": "True якщо monitor-артефакт містив непорожній stats.errors"
+        }
+      }
+    },
+    "ConsolidatedItem": {
+      "type": "object",
+      "required": ["title", "url", "raw_status", "source_agent_id"],
+      "additionalProperties": false,
+      "description": "Один документ у консолідованому артефакті — розширений MonitorItem з полем source_agent_id",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Повна назва документа"
+        },
+        "number": {
+          "type": "string",
+          "description": "Номер акта або реєстраційний номер законопроекту"
+        },
+        "date_published": {
+          "type": "string",
+          "format": "date",
+          "description": "Дата публікації або реєстрації (YYYY-MM-DD)"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Пряме посилання на офіційний текст документа"
+        },
+        "raw_status": {
+          "type": "string",
+          "enum": ["found"],
+          "description": "Статус на рівні монітора. Завжди 'found'."
+        },
+        "source_agent_id": {
+          "type": "string",
+          "enum": ["monitor-rada-bills", "monitor-kmu", "monitor-nbu"],
+          "description": "Монітор, що знайшов цей документ"
+        }
+      }
+    }
+  }
+}

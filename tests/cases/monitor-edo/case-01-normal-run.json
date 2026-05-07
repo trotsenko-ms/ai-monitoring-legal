@@ -1,0 +1,22 @@
+{
+  "case_id": "monitor-edo/case-01-normal-run",
+  "description": "Звичайний запуск: агент знаходить 4 нових НПА, 7 дублів відфільтровано",
+  "agent": "monitor-edo",
+  "trigger": "manual",
+  "fixture": "tests/fixtures/monitor-edo/sample-run-with-items.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-edo",
+    "items_count_min": 1,
+    "duplicates_filtered_min": 0,
+    "errors_count": 0,
+    "every_item_has_url": true,
+    "every_item_has_title": true,
+    "every_item_raw_status": "found"
+  },
+  "expected": {
+    "stats.items_found": 4,
+    "stats.duplicates_filtered": 7,
+    "stats.errors": []
+  }
+}

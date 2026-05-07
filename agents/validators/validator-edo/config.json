@@ -1,0 +1,20 @@
+{
+  "agent_id": "validator-edo",
+  "agent_version": "1.0",
+  "model": "claude-haiku-4-5",
+  "tools": ["WebFetch"],
+  "input_dir": "runs/monitor-edo",
+  "output_dir": "runs/validator-edo",
+  "schema": "shared/schemas/validated-artifact.schema.json",
+  "email": {
+    "to": "legal.monitor.ai@gmail.com",
+    "subject_prefix": "[ЕДО]",
+    "transport": "gmail_smtp",
+    "credentials_env": "GMAIL_APP_PASSWORD"
+  },
+  "schedule": {
+    "cron_utc": "30 5 * * *",
+    "description": "08:30 Kyiv (UTC+3). Runs after monitor-edo completes.",
+    "manual_trigger": "ЕДО"
+  }
+}

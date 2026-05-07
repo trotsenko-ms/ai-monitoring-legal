@@ -1,0 +1,61 @@
+{
+  "agent_id": "validator-edo",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T05-35-00Z",
+  "source_artifact": "runs/monitor-edo/2026-05-07T05-30-00Z.json",
+  "period": {
+    "from": "2026-05-06T05:30:00Z",
+    "to": "2026-05-07T05:30:00Z"
+  },
+  "items": [
+    {
+      "title": "Постанова КМУ від 06.05.2026 № 534 «Про затвердження Порядку функціонування системи міжвідомчого електронного документообігу органів виконавчої влади»",
+      "number": "534-2026-п",
+      "date_published": "2026-05-06",
+      "url": "https://zakon.rada.gov.ua/laws/show/534-2026-п",
+      "raw_status": "found",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Закон України від 05.05.2026 № 4012-IX «Про внесення змін до Закону України «Про електронні документи та електронний документообіг» щодо вимог до форматів електронних документів»",
+      "number": "4012-IX",
+      "date_published": "2026-05-05",
+      "url": "https://zakon.rada.gov.ua/laws/show/4012-20",
+      "raw_status": "found",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Постанова Правління НБУ від 06.05.2026 № 58 «Про внесення змін до Положення про організацію діловодства і документообігу в Національному банку України»",
+      "number": "58",
+      "date_published": "2026-05-06",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "raw_status": "found",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    }
+  ],
+  "stats": {
+    "items_received": 3,
+    "items_valid": 3,
+    "items_invalid": 0,
+    "items_uncertain": 0,
+    "errors": []
+  }
+}

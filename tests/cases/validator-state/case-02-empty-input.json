@@ -1,0 +1,20 @@
+{
+  "case_id": "validator-state/case-02-empty-input",
+  "description": "Порожній вхід: консолідований артефакт містить 0 items — validator формує порожній дайджест з текстом «нових змін не виявлено»",
+  "agent": "validator-state",
+  "trigger": "cron",
+  "input_artifact": "runs/orchestrator-state/2026-05-07T06-05-00Z.json",
+  "fixture": "tests/fixtures/orchestrator-state/sample-consolidated-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "validator-state",
+    "items_received_equals_input": true,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_received": 0,
+    "stats.items_valid": 0,
+    "stats.items_invalid": 0,
+    "stats.items_uncertain": 0
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "agent_id": "monitor-edo",
+  "agent_version": "1.0",
+  "model": "claude-sonnet-4-5",
+  "tools": ["WebSearch", "WebFetch"],
+  "dedup_file": "data/dedup/seen_urls_edo.json",
+  "output_dir": "runs/monitor-edo",
+  "schema": "shared/schemas/monitor-artifact.schema.json",
+  "schedule": {
+    "cron_utc": "30 5 * * *",
+    "description": "08:30 Kyiv (UTC+3)",
+    "manual_trigger": "ЕДО"
+  }
+}

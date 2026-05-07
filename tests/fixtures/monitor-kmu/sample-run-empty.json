@@ -1,0 +1,16 @@
+{
+  "agent_id": "monitor-kmu",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-00-30Z",
+  "period": {
+    "from": "2026-05-06T14:00:00Z",
+    "to": "2026-05-07T05:00:00Z"
+  },
+  "source_url": "https://www.kmu.gov.ua/npasearch",
+  "items": [],
+  "stats": {
+    "items_found": 0,
+    "duplicates_filtered": 2,
+    "errors": []
+  }
+}

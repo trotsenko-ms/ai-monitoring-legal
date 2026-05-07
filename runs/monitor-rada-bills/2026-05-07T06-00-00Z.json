@@ -1,0 +1,31 @@
+{
+  "agent_id": "monitor-rada-bills",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-00-00Z",
+  "period": {
+    "from": "2026-05-06T14:00:00Z",
+    "to": "2026-05-07T05:00:00Z"
+  },
+  "source_url": "https://itd.rada.gov.ua/billinfo/Bills/period",
+  "items": [
+    {
+      "title": "Проект Закону про внесення змін до Закону України «Про електронні довірчі послуги» щодо вдосконалення порядку надання кваліфікованих електронних підписів",
+      "number": "11342",
+      "date_published": "2026-05-06",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11342",
+      "raw_status": "found"
+    },
+    {
+      "title": "Проект Закону про внесення змін до деяких законодавчих актів України щодо електронного документообігу в судочинстві та архівного зберігання судових документів",
+      "number": "11343",
+      "date_published": "2026-05-07",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11343",
+      "raw_status": "found"
+    }
+  ],
+  "stats": {
+    "items_found": 2,
+    "duplicates_filtered": 5,
+    "errors": []
+  }
+}
