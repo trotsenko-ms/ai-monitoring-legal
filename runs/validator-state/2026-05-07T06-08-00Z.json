@@ -1,0 +1,125 @@
+{
+  "agent_id": "validator-state",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-08-00Z",
+  "source_artifact": "runs/orchestrator-state/2026-05-07T06-05-00Z.json",
+  "period": {
+    "from": "2026-05-06T14:00:00Z",
+    "to": "2026-05-07T05:00:00Z"
+  },
+  "items": [
+    {
+      "title": "Проект Закону про внесення змін до Закону України «Про електронні довірчі послуги» щодо вдосконалення порядку надання кваліфікованих електронних підписів",
+      "number": "11342",
+      "date_published": "2026-05-06",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11342",
+      "raw_status": "found",
+      "source_agent_id": "monitor-rada-bills",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Проект Закону про внесення змін до деяких законодавчих актів України щодо електронного документообігу в судочинстві та архівного зберігання судових документів",
+      "number": "11343",
+      "date_published": "2026-05-07",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11343",
+      "raw_status": "found",
+      "source_agent_id": "monitor-rada-bills",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Постанова КМУ від 06.05.2026 № 534 «Про затвердження Порядку функціонування системи міжвідомчого електронного документообігу органів виконавчої влади»",
+      "number": "534",
+      "date_published": "2026-05-06",
+      "url": "https://www.kmu.gov.ua/npas/pro-zatverdzhennya-poryadku-534-06052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Розпорядження КМУ від 06.05.2026 № 412-р «Про схвалення Концепції розвитку системи електронних довірчих послуг в Україні на 2026-2030 роки»",
+      "number": "412-р",
+      "date_published": "2026-05-06",
+      "url": "https://www.kmu.gov.ua/npas/pro-skhvalennya-kontseptsiyi-412-r-06052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Постанова КМУ від 05.05.2026 № 521 «Про внесення змін до Порядку застосування кваліфікованих електронних підписів у системах електронного урядування»",
+      "number": "521",
+      "date_published": "2026-05-05",
+      "url": "https://www.kmu.gov.ua/npas/pro-vnesennya-zmin-521-05052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu",
+      "validation_status": "uncertain",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": false,
+        "keywords_match": true
+      },
+      "validation_note": "date_in_period: дата публікації 2026-05-05 знаходиться поза межами розрахункового period.from 2026-05-06T14:00:00Z; документ міг бути знайдений у поточному window через затримку індексації"
+    },
+    {
+      "title": "Постанова Правління НБУ від 06.05.2026 № 58 «Про внесення змін до Положення про організацію діловодства і документообігу в Національному банку України»",
+      "number": "58",
+      "date_published": "2026-05-06",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "raw_status": "found",
+      "source_agent_id": "monitor-nbu",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    },
+    {
+      "title": "Постанова Правління НБУ від 05.05.2026 № 55 «Про внесення змін до Правил зберігання банківських документів та строків їх зберігання в електронній формі»",
+      "number": "55",
+      "date_published": "2026-05-05",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_05052026_55",
+      "raw_status": "found",
+      "source_agent_id": "monitor-nbu",
+      "validation_status": "valid",
+      "validation_checks": {
+        "url_accessible": true,
+        "document_found": true,
+        "date_in_period": true,
+        "keywords_match": true
+      }
+    }
+  ],
+  "stats": {
+    "items_received": 7,
+    "items_valid": 6,
+    "items_invalid": 0,
+    "items_uncertain": 1,
+    "errors": []
+  }
+}

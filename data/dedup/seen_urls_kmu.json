@@ -1,5 +1,18 @@
 {
   "agent_id": "monitor-kmu",
-  "last_updated": "",
-  "urls": []
+  "last_updated": "2026-05-07T05:00:00Z",
+  "urls": [
+    {
+      "url": "https://www.kmu.gov.ua/npas/pro-zatverdzhennya-poryadku-534-06052026",
+      "found_date": "2026-05-07"
+    },
+    {
+      "url": "https://www.kmu.gov.ua/npas/pro-skhvalennya-kontseptsiyi-412-r-06052026",
+      "found_date": "2026-05-07"
+    },
+    {
+      "url": "https://www.kmu.gov.ua/npas/pro-vnesennya-zmin-521-05052026",
+      "found_date": "2026-05-07"
+    }
+  ]
 }

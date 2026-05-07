@@ -1,0 +1,30 @@
+{
+  "case_id": "orchestrator-state/case-01-full-run",
+  "description": "Повний запуск: всі три монітори повернули артефакти, оркестратор консолідує 7 items (2 + 3 + 2)",
+  "agent": "orchestrator-state",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/orchestrator-state/sample-consolidated-with-items.json",
+  "input_artifacts": [
+    "runs/monitor-rada-bills/2026-05-07T06-00-00Z.json",
+    "runs/monitor-kmu/2026-05-07T06-00-30Z.json",
+    "runs/monitor-nbu/2026-05-07T06-01-00Z.json"
+  ],
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "orchestrator-state",
+    "sources_count": 3,
+    "all_sources_present": true,
+    "items_total_min": 1,
+    "every_item_has_source_agent_id": true,
+    "sources_with_errors_count": 0,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_total": 7,
+    "stats.items_by_source.monitor-rada-bills": 2,
+    "stats.items_by_source.monitor-kmu": 3,
+    "stats.items_by_source.monitor-nbu": 2,
+    "stats.sources_with_errors": [],
+    "stats.errors": []
+  }
+}

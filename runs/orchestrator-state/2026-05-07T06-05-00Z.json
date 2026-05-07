@@ -1,0 +1,100 @@
+{
+  "agent_id": "orchestrator-state",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-05-00Z",
+  "period": {
+    "from": "2026-05-06T14:00:00Z",
+    "to": "2026-05-07T05:00:00Z"
+  },
+  "sources": [
+    {
+      "agent_id": "monitor-rada-bills",
+      "artifact_path": "runs/monitor-rada-bills/2026-05-07T06-00-00Z.json",
+      "run_id": "2026-05-07T06-00-00Z",
+      "items_count": 2,
+      "had_errors": false
+    },
+    {
+      "agent_id": "monitor-kmu",
+      "artifact_path": "runs/monitor-kmu/2026-05-07T06-00-30Z.json",
+      "run_id": "2026-05-07T06-00-30Z",
+      "items_count": 3,
+      "had_errors": false
+    },
+    {
+      "agent_id": "monitor-nbu",
+      "artifact_path": "runs/monitor-nbu/2026-05-07T06-01-00Z.json",
+      "run_id": "2026-05-07T06-01-00Z",
+      "items_count": 2,
+      "had_errors": false
+    }
+  ],
+  "items": [
+    {
+      "title": "Проект Закону про внесення змін до Закону України «Про електронні довірчі послуги» щодо вдосконалення порядку надання кваліфікованих електронних підписів",
+      "number": "11342",
+      "date_published": "2026-05-06",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11342",
+      "raw_status": "found",
+      "source_agent_id": "monitor-rada-bills"
+    },
+    {
+      "title": "Проект Закону про внесення змін до деяких законодавчих актів України щодо електронного документообігу в судочинстві та архівного зберігання судових документів",
+      "number": "11343",
+      "date_published": "2026-05-07",
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11343",
+      "raw_status": "found",
+      "source_agent_id": "monitor-rada-bills"
+    },
+    {
+      "title": "Постанова КМУ від 06.05.2026 № 534 «Про затвердження Порядку функціонування системи міжвідомчого електронного документообігу органів виконавчої влади»",
+      "number": "534",
+      "date_published": "2026-05-06",
+      "url": "https://www.kmu.gov.ua/npas/pro-zatverdzhennya-poryadku-534-06052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu"
+    },
+    {
+      "title": "Розпорядження КМУ від 06.05.2026 № 412-р «Про схвалення Концепції розвитку системи електронних довірчих послуг в Україні на 2026-2030 роки»",
+      "number": "412-р",
+      "date_published": "2026-05-06",
+      "url": "https://www.kmu.gov.ua/npas/pro-skhvalennya-kontseptsiyi-412-r-06052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu"
+    },
+    {
+      "title": "Постанова КМУ від 05.05.2026 № 521 «Про внесення змін до Порядку застосування кваліфікованих електронних підписів у системах електронного урядування»",
+      "number": "521",
+      "date_published": "2026-05-05",
+      "url": "https://www.kmu.gov.ua/npas/pro-vnesennya-zmin-521-05052026",
+      "raw_status": "found",
+      "source_agent_id": "monitor-kmu"
+    },
+    {
+      "title": "Постанова Правління НБУ від 06.05.2026 № 58 «Про внесення змін до Положення про організацію діловодства і документообігу в Національному банку України»",
+      "number": "58",
+      "date_published": "2026-05-06",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "raw_status": "found",
+      "source_agent_id": "monitor-nbu"
+    },
+    {
+      "title": "Постанова Правління НБУ від 05.05.2026 № 55 «Про внесення змін до Правил зберігання банківських документів та строків їх зберігання в електронній формі»",
+      "number": "55",
+      "date_published": "2026-05-05",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_05052026_55",
+      "raw_status": "found",
+      "source_agent_id": "monitor-nbu"
+    }
+  ],
+  "stats": {
+    "items_total": 7,
+    "items_by_source": {
+      "monitor-rada-bills": 2,
+      "monitor-kmu": 3,
+      "monitor-nbu": 2
+    },
+    "sources_with_errors": [],
+    "errors": []
+  }
+}

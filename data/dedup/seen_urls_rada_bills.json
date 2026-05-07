@@ -1,5 +1,14 @@
 {
   "agent_id": "monitor-rada-bills",
-  "last_updated": "",
-  "urls": []
+  "last_updated": "2026-05-07T05:00:00Z",
+  "urls": [
+    {
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11342",
+      "found_date": "2026-05-07"
+    },
+    {
+      "url": "https://itd.rada.gov.ua/billinfo/Bills/Card/11343",
+      "found_date": "2026-05-07"
+    }
+  ]
 }
