@@ -1,0 +1,17 @@
+{
+  "case_id": "monitor-edo/case-02-empty-period",
+  "description": "Порожній результат: за короткий міжзапусковий період нових НПА не опубліковано",
+  "agent": "monitor-edo",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-edo/sample-run-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-edo",
+    "items_count_min": 0,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_found": 0,
+    "items": []
+  }
+}

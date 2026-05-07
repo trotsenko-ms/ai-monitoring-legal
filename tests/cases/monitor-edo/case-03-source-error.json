@@ -1,0 +1,16 @@
+{
+  "case_id": "monitor-edo/case-03-source-error",
+  "description": "Часткова помилка: bank.gov.ua недоступний, решта джерел відпрацювали",
+  "agent": "monitor-edo",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-edo/sample-run-with-errors.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-edo",
+    "items_count_min": 0,
+    "errors_count_min": 1
+  },
+  "expected": {
+    "stats.errors[0]": "source_unavailable: bank.gov.ua — HTTP 503 під час запиту /ua/legislation"
+  }
+}

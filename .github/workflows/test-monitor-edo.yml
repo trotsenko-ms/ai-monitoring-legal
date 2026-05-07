@@ -1,0 +1,95 @@
+name: Test monitor-edo (smoke)
+
+# Smoke test: validates infrastructure WITHOUT calling Claude API.
+# Checks:
+#   - scripts/run-agent.sh exists and is executable
+#   - agents/monitors/monitor-edo/prompt.md + config.json are present
+#   - shared/schemas/monitor-artifact.schema.json is present
+#   - data/dedup/seen_urls_edo.json is present
+#   - All fixture artifacts pass schema validation (scripts/validate-artifact.py)
+#   - All test cases pass (scripts/run-tests.sh monitor-edo)
+#
+# Does NOT require ANTHROPIC_API_KEY.
+# Real end-to-end run → monitor-edo.yml (workflow_dispatch or cron).
+
+on:
+  push:
+    paths:
+      - 'agents/monitors/monitor-edo/**'
+      - 'shared/schemas/monitor-artifact.schema.json'
+      - 'scripts/validate-artifact.py'
+      - 'scripts/run-agent.sh'
+      - 'tests/fixtures/monitor-edo/**'
+      - 'tests/cases/monitor-edo/**'
+      - '.github/workflows/test-monitor-edo.yml'
+  workflow_dispatch:
+
+jobs:
+  smoke-test:
+    name: monitor-edo smoke test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files exist
+        run: |
+          set -e
+          echo "Checking infrastructure files..."
+          declare -a required=(
+            "scripts/run-agent.sh"
+            "scripts/validate-artifact.py"
+            "agents/monitors/monitor-edo/prompt.md"
+            "agents/monitors/monitor-edo/config.json"
+            "agents/monitors/monitor-edo/README.md"
+            "shared/schemas/monitor-artifact.schema.json"
+            "data/dedup/seen_urls_edo.json"
+          )
+          all_ok=true
+          for f in "${required[@]}"; do
+            if [[ -f "${f}" ]]; then
+              echo "  OK  ${f}"
+            else
+              echo "  MISSING  ${f}"
+              all_ok=false
+            fi
+          done
+          "${all_ok}" && echo "All required files present." || (echo "Missing files detected." && exit 1)
+
+      - name: Validate config.json structure
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          with open("agents/monitors/monitor-edo/config.json") as f:
+              config = json.load(f)
+          required = ["agent_id", "agent_version", "model", "tools", "dedup_file", "output_dir", "schema"]
+          missing = [k for k in required if k not in config]
+          if missing:
+              print(f"config.json missing keys: {missing}")
+              sys.exit(1)
+          assert config["agent_id"] == "monitor-edo", f"Unexpected agent_id: {config['agent_id']}"
+          assert config["model"].startswith("claude-"), f"Unexpected model: {config['model']}"
+          print(f"config.json OK: model={config['model']} tools={config['tools']}")
+          EOF
+
+      - name: Validate seen_urls_edo.json structure
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          with open("data/dedup/seen_urls_edo.json") as f:
+              data = json.load(f)
+          assert "agent_id" in data, "Missing agent_id"
+          assert data["agent_id"] == "monitor-edo", f"Wrong agent_id: {data['agent_id']}"
+          assert "urls" in data and isinstance(data["urls"], list), "Missing/invalid urls"
+          print(f"seen_urls_edo.json OK: {len(data['urls'])} entries")
+          EOF
+
+      - name: Run fixture validation (all monitor-edo test cases)
+        run: bash scripts/run-tests.sh monitor-edo
+
+      - name: Validate fixtures individually
+        run: |
+          echo "Validating each fixture against schema..."
+          for f in tests/fixtures/monitor-edo/*.json; do
+            python3 scripts/validate-artifact.py "${f}"
+          done

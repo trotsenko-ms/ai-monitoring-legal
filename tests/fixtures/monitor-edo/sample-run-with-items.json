@@ -1,0 +1,45 @@
+{
+  "agent_id": "monitor-edo",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T05-30-00Z",
+  "period": {
+    "from": "2026-04-30T05:30:00Z",
+    "to": "2026-05-07T05:30:00Z"
+  },
+  "source_url": "https://zakon.rada.gov.ua / https://kmu.gov.ua / https://bank.gov.ua",
+  "items": [
+    {
+      "title": "Постанова КМУ від 29.04.2026 № 512 «Про внесення змін до Порядку застосування електронних довірчих послуг у органах виконавчої влади»",
+      "number": "512-2026-п",
+      "date_published": "2026-04-30",
+      "url": "https://zakon.rada.gov.ua/laws/show/512-2026-п",
+      "raw_status": "found"
+    },
+    {
+      "title": "Наказ Мін'юсту від 27.04.2026 № 1140/5 «Про затвердження змін до Правил організації діловодства та архівного зберігання документів у державних органах»",
+      "number": "1140/5",
+      "date_published": "2026-04-28",
+      "url": "https://zakon.rada.gov.ua/laws/show/z0400-26",
+      "raw_status": "found"
+    },
+    {
+      "title": "Постанова Правління НБУ від 25.04.2026 № 73 «Про внесення змін до Положення про організацію діяльності галузевого державного архіву НБУ»",
+      "number": "73",
+      "date_published": "2026-04-26",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_25042026_73",
+      "raw_status": "found"
+    },
+    {
+      "title": "Закон України від 22.04.2026 № 3987-IX «Про внесення змін до деяких законів України щодо вдосконалення електронної взаємодії державних органів»",
+      "number": "3987-IX",
+      "date_published": "2026-04-24",
+      "url": "https://zakon.rada.gov.ua/laws/show/3987-20",
+      "raw_status": "found"
+    }
+  ],
+  "stats": {
+    "items_found": 4,
+    "duplicates_filtered": 7,
+    "errors": []
+  }
+}
