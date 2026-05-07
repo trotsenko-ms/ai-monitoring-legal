@@ -1,0 +1,16 @@
+{
+  "agent_id": "monitor-edo",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T14-00-00Z",
+  "period": {
+    "from": "2026-05-07T05:30:00Z",
+    "to": "2026-05-07T14:00:00Z"
+  },
+  "source_url": "https://zakon.rada.gov.ua / https://kmu.gov.ua / https://bank.gov.ua",
+  "items": [],
+  "stats": {
+    "items_found": 0,
+    "duplicates_filtered": 3,
+    "errors": []
+  }
+}

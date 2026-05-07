@@ -1,0 +1,24 @@
+{
+  "agent_id": "monitor-edo",
+  "agent_version": "1.0",
+  "run_id": "2026-05-06T14-00-00Z",
+  "period": {
+    "from": "2026-05-06T05:30:00Z",
+    "to": "2026-05-06T14:00:00Z"
+  },
+  "source_url": "https://zakon.rada.gov.ua / https://kmu.gov.ua / https://bank.gov.ua",
+  "items": [
+    {
+      "title": "Постанова КМУ від 06.05.2026 № 534 «Про цифровізацію документообігу в органах місцевого самоврядування»",
+      "number": "534-2026-п",
+      "date_published": "2026-05-06",
+      "url": "https://zakon.rada.gov.ua/laws/show/534-2026-п",
+      "raw_status": "found"
+    }
+  ],
+  "stats": {
+    "items_found": 1,
+    "duplicates_filtered": 2,
+    "errors": ["source_unavailable: bank.gov.ua — HTTP 503 під час запиту /ua/legislation"]
+  }
+}
