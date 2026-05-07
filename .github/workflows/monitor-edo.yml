@@ -79,8 +79,13 @@ jobs:
       - name: Run validator-edo
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: bash scripts/run-agent.sh validators validator-edo
+
+      - name: Send email digest
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+        run: python3 scripts/send-digest.py --agent validator-edo
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
