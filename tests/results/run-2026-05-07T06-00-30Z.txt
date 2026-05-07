@@ -1,0 +1,8 @@
+Test run: 2026-05-07T06-00-30Z
+Agent filter: monitor-kmu
+================================
+PASS monitor-kmu/case-01-normal-run
+PASS monitor-kmu/case-02-empty-period
+PASS monitor-kmu/case-03-source-error
+================================
+Results: 3 passed, 0 failed

@@ -1,0 +1,8 @@
+Test run: 2026-05-07T06-01-00Z
+Agent filter: monitor-nbu
+================================
+PASS monitor-nbu/case-01-normal-run
+PASS monitor-nbu/case-02-empty-period
+PASS monitor-nbu/case-03-source-error
+================================
+Results: 3 passed, 0 failed

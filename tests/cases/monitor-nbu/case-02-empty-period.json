@@ -1,0 +1,17 @@
+{
+  "case_id": "monitor-nbu/case-02-empty-period",
+  "description": "Порожній результат: за нічний міжзапусковий період нових нормативних актів НБУ у сфері документообігу не опубліковано",
+  "agent": "monitor-nbu",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-nbu/sample-run-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-nbu",
+    "items_count_min": 0,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_found": 0,
+    "items": []
+  }
+}

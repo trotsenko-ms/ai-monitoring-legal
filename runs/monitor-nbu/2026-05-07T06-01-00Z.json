@@ -1,0 +1,31 @@
+{
+  "agent_id": "monitor-nbu",
+  "agent_version": "1.0",
+  "run_id": "2026-05-07T06-01-00Z",
+  "period": {
+    "from": "2026-05-06T14:00:00Z",
+    "to": "2026-05-07T05:00:00Z"
+  },
+  "source_url": "https://bank.gov.ua/ua/legislation",
+  "items": [
+    {
+      "title": "Постанова Правління НБУ від 06.05.2026 № 58 «Про внесення змін до Положення про організацію діловодства і документообігу в Національному банку України»",
+      "number": "58",
+      "date_published": "2026-05-06",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_06052026_58",
+      "raw_status": "found"
+    },
+    {
+      "title": "Постанова Правління НБУ від 05.05.2026 № 55 «Про внесення змін до Правил зберігання банківських документів та строків їх зберігання в електронній формі»",
+      "number": "55",
+      "date_published": "2026-05-05",
+      "url": "https://bank.gov.ua/ua/legislation/Resolution_05052026_55",
+      "raw_status": "found"
+    }
+  ],
+  "stats": {
+    "items_found": 2,
+    "duplicates_filtered": 4,
+    "errors": []
+  }
+}

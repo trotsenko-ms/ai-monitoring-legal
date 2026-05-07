@@ -1,0 +1,17 @@
+{
+  "case_id": "monitor-kmu/case-02-empty-period",
+  "description": "Порожній результат: за нічний міжзапусковий період нових релевантних актів КМУ не опубліковано",
+  "agent": "monitor-kmu",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-kmu/sample-run-empty.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-kmu",
+    "items_count_min": 0,
+    "errors_count": 0
+  },
+  "expected": {
+    "stats.items_found": 0,
+    "items": []
+  }
+}

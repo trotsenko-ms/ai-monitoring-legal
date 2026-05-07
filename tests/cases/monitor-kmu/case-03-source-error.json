@@ -1,0 +1,18 @@
+{
+  "case_id": "monitor-kmu/case-03-source-error",
+  "description": "Помилка джерела: kmu.gov.ua/npasearch недоступний, агент фіксує помилку і повертає порожній items[]",
+  "agent": "monitor-kmu",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-kmu/sample-run-with-errors.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-kmu",
+    "items_count_min": 0,
+    "errors_count_min": 1
+  },
+  "expected": {
+    "stats.items_found": 0,
+    "items": [],
+    "stats.errors": ["source_unavailable: kmu.gov.ua"]
+  }
+}

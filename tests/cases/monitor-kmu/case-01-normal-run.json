@@ -1,0 +1,22 @@
+{
+  "case_id": "monitor-kmu/case-01-normal-run",
+  "description": "Звичайний запуск: агент знаходить 3 нових акти КМУ у сфері ЕДО та КЕП, 8 дублів відфільтровано",
+  "agent": "monitor-kmu",
+  "trigger": "cron",
+  "fixture": "tests/fixtures/monitor-kmu/sample-run-with-items.json",
+  "checks": {
+    "schema_valid": true,
+    "agent_id": "monitor-kmu",
+    "items_count_min": 1,
+    "duplicates_filtered_min": 0,
+    "errors_count": 0,
+    "every_item_has_url": true,
+    "every_item_has_title": true,
+    "every_item_raw_status": "found"
+  },
+  "expected": {
+    "stats.items_found": 3,
+    "stats.duplicates_filtered": 8,
+    "stats.errors": []
+  }
+}
